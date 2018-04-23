@@ -1,36 +1,37 @@
-let time = new Date().getHours();
 let earlyMorning = 3;
 let morning = 7;
 let noon = 12;
 let evening = 17;
-let partyTime = 19;
+let partyTime = false;
 let night = 20;
 let lateNight = 22;
-let isPartyTime = false;
+let partyTimeButton = document.getElementById("partyTimeButton");
 let wakeUp = document.getElementById("wakeUpTimeSelector");
 let lunch = document.getElementById("lunchTimeSelector");
 let nap = document.getElementById("napTimeSelector");
 
 const updateClock = () => {
+  let time = new Date().getHours();
   let messageText;
   let timeEventJS = document.getElementById('timeEvent');
   let lolcatImg = document.getElementById('lolcat');
-  let image = "https://s3.amazonaws.com/media.skillcrush.com/skillcrush/wp-content/uploads/2016/08/normalTime.jpg";
- 
-// Set the right messageText and image if time is partyTime 
-  if (time === partyTime) {
+  let image = "https://goo.gl/JKCmMf";
+
+  // Set the right messageText and image if time is partyTime 
+  // console.log("hour is", time);
+  if (partyTime) {
     messageText = "PARTY TIME!";
     image = "https://i.ytimg.com/vi/HDOMbFRU-uk/hqdefault.jpg";
-  } else if (time === wakeUp) {
-    messageText = "Let's conquer the day!";
+  } else if (time === Number(wakeUp.value)) {
+    messageText = "";
     image = "https://i.chzbgr.com/full/8796232448/h3CB75653/";
-  } else if (time === lunch) {
-      messageText = "LUNCH TIME!";
-      image = "https://www.worldsbestcatlitter.com/clearing-the-air/wp-content/uploads/2016/08/cat-food-blog-image2.jpg";
-  } else if (time === nap) {
-      messageText = "shh-shhhhh, iz sleepin'";
-      image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHuo5bbc1sPK4spp3y8WxLT_BVfvIKagzwB-8JBDcOrLEgMDEb"
-  }else if (time >= earlyMorning && time < morning) {
+  } else if (time === Number(lunch.value)) {
+    messageText = "LUNCH TIME!";
+    image = "https://www.worldsbestcatlitter.com/clearing-the-air/wp-content/uploads/2016/08/cat-food-blog-image2.jpg";
+  } else if (time === Number(nap.value)) {
+    messageText = "shh-shhhhh, iz sleepin'";
+    image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHuo5bbc1sPK4spp3y8WxLT_BVfvIKagzwB-8JBDcOrLEgMDEb"
+  } else if (time >= earlyMorning && time < morning) {
     messageText = "Top o' the Mornin'";
     image = "http://www.catster.com/wp-content/uploads/2015/03/st-patricks-day-cat-05.jpg";
     console.log(messageText);
@@ -93,32 +94,38 @@ const updateClock = () => {
 
     clock.innerText = clockTime;
   };
-
-  showCurrentTime(); 
+  showCurrentTime();
 }
 updateClock();
+
 let oneSecond = 1000;//1000 milliseconds is equal to 1 second
 setInterval(updateClock, oneSecond);
 
-const wakeUpEvent = () =>{
-  wakeUp = wakeUpTimeSelector.value;
-}
-wakeUp.addEventListener('change', wakeUpEvent)
 
-let partyTimeButton = document.getElementById("partyTimeButton");
-let partyOverButton = document.getElementById("partyOverButton");
+  //wake up
+const wakeUpEvent = (event) => {
+  let wakeUp = wakeUpTimeSelector.value;
+  updateClock();
+}
+  wakeUp.addEventListener('change', wakeUpEvent);
+
+  //lunch
+const lunchEvent = (event) => {
+  let lunch = lunchTimeSelector.value;
+  updateClock();
+}
+  lunch.addEventListener('change', lunchEvent);
+
+  //nap
+const napEvent = (event) => {
+  let nap = napTimeSelector.value;
+  updateClock();
+}
+  nap.addEventListener('change', napEvent);
+
+
 
 const partyEvent = () => {
-// change time to partyTime if we click the button, then change it back to the current time if we click it again.
-  if (isPartyTime === false) {
-    isPartyTime = true;
-    time = partyTime;
-    partyOverButton.style.display = "inline-block";
-    partyTimeButton.style.display = "none";
-  } else {
-    isPartyTime = false;
-    time = new Date().getHours();
-  }
+  partyTime = !partyTime;
 };
-partyTimeButton.addEventListener('click', partyEvent);
-partyOverButton.addEventListener('click', partyEvent);
+  partyTimeButton.addEventListener('click', partyEvent);
